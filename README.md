@@ -28,7 +28,7 @@ python cpn_parser.py --infile copy_number.txt --chr chrN
 
 - **-i** or **--infile:** single copy number data file.
 - **-d** or **--dir:** directory containing more than one copy number data file.
-- **-c** or **--chr:** target chromosome that will be searched. The chromosome must be informed in standard format (chrN). More than one chromosome can be searched at the same time, they must be separated by **,** . It is also possible to search for a range of chromosomes, in this case the initial and the last chromosome must be separated by **:** . 
+- **-c** or **--chr:** target chromosome that will be searched. The chromosome must be informed in standard format (chrN). More than one chromosome can be searched at the same time, they must be separated by a comma (**,**). It is also possible to search for a range of chromosomes, in this case the initial and the last chromosome must be separated by a colon (**:**). 
 - **-o** or **--out:** Optional output file. If not informed the result will be printed on standard output.
 
 The required arguments are: **--infile** or **--dir** and **--chr**.  
