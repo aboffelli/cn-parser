@@ -2,7 +2,7 @@
 
 ##  About the program
 
-The program was created to facilitate the search of fragment information about one or more target chromosomes in a Copy Number Data file.
+This program was created to facilitate the search of fragment information about one or more target chromosomes in an already segmented Copy Number Variation file.
 
 ## Installation
 
