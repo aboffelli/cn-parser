@@ -37,9 +37,9 @@ The required arguments are: **--infile** or **--dir** and **--chr**.
 
 The program only retrieve the information if the chromosome(s) selected have fragments (abnormalities). The output contains the file name, the selected chromosome, and the number of fragments found. For each fragment, the start and end positions are displayed, together with the copy number. The gap between fragments is also informed, with start and end positions and the gap length in base pairs. 
 
-  [File name] [target chromosome] [number of fragments]
-  Fragment position [start-end] [Copy number]
-  Gap position [start-end]  Length
-  Fragment position [start-end] [Copy number]
+[File name] [target chromosome] [number of fragments]  
+Fragment position [start-end] [Copy number]  
+Gap position [start-end]  Length  
+Fragment position [start-end] [Copy number]  
 
 If more than one chromosome is selected the information is separated by a new line between chromosomes. If more than one file is selected, the information is separated by two new line between files.
