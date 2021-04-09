@@ -21,7 +21,7 @@ The program is designed to parse a default Copy Number Data file, which means a 
 The program can be run through command line.
 
 ```
-python cpn_parser.py --infile copy_number.txt --chr chrN
+python cn_parser.py --infile copy_number.txt --chr chrN
 ```
 
 #### Flag options:
