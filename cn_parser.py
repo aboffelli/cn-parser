@@ -3,32 +3,9 @@
 """
 Title: Copy Number Parser
 
-Created on: Wed Oct 28 09:58:25 2020
+Created on: Wed Oct 28, 2020
 Author: Arthur Boffelli Castro
 
-Description:
-    The program was created to find information of one or more target 
-        chromosomes in a Copy Number Data file. The program will only store the
-        information, in an output file or in the screen, if the chromosome has 
-        fragments (abnormality).
-
-List of functions:
-    1. file_existance
-    2. dir_existance
-    3. check_file
-    4. chr_set
-    5. find_fragments
-    6. gap_length
-
-List of "non standard" modules:
-    No "non standard" modules are used in this program.
-    
-Usage:
-    cpn_parser.py [-h] (-d FOLDER | -i INFILE) [-c CHROMOSOME] [-o OUTFILE]
-
-The target chromosome must be in standard format (chr1, chr2 ... chrX, chrY). 
-    If more than one chromosome, they must be separated by ','. If range of 
-    chromosomes, the initial and the last chromosomes must be separated by ':'.
 """
 
 import os
@@ -78,58 +55,15 @@ args = parser.parse_args()
 # Functions section
 
 
-def file_existance(file):
-    """
-    Function to check the existance of the file.
-    
-    Key arguments:
-        file(str) - path of the file.
-    
-    Procedure:
-        1. Check the existance of the file using the os module (path.exists).
-        2. Returns True if it exists, return False and print a message if the
-            file does not exits.
-    """
-    if os.path.exists(file):
-        return True
-    else:
-        print('Warning: The file "{}" was not found.'.format(file))
-        return False
-
-
-def dir_existance(dir_path):
-    """
-    Function to check the existance of a directory.
-    
-    Key arguments:
-        dir_path(str) - path of the directory.
-    
-    Procedure:
-        1. Check the existance of the directory using the os module 
-            (path.isdir).
-        2. Returns True if it exists, return False and print a message if the
-            directory does not exits.
-    """
-    if os.path.isdir(dir_path):
-        return True
-    else:
-        print('Warning: The directory "{}" was not found.'.format(dir_path))
-
-
 def check_file(file):
     """
     Function to check if the file is a Copy Number Data and has all the columns
         needed for the program.
     
-    Key arguments:
-        file(str) - path of the file.
-        
-    Procedure:
-        1. Open the file and reads the first line and transform it into a list.
-        2. Create a list with the four needed columns.
-        3. Check if each word is in the line list, and print a message if not.
-        4. Return True if all columns are present.
-    
+    :param file: file path (str)
+
+    :return: True if the file has the necessary conditions. If not, print a warning 
+        message and return False.
     """
     with open(file, 'r') as infile:
         # reads the first line and transform it into a list.
@@ -152,24 +86,11 @@ def check_file(file):
 
 def chr_set(string):
     """
-    Function to create a set with all target chromosomes passed as arguments.
+    Function to create a set with all target chromosomes.
     
-    Key arguments:
-        string(str) - string passed as argument containing the target 
-                        chromosome(s).
-    
-    Procedure:
-        1. Creates an empty set and split the string in ',' separators.
-        2. A loop passes through all the objects in the list. If a ':' 
-            character is present (range of chromosomes), the line is splited
-            again in the ':' character. Transforms the chrX and chrY in numbers
-            if they are present. Colect the number of the chromosome using 
-            index and start a for loop in the range of both chromosome numbers.
-            For every number, add chr to it, and the chromosome is added to the
-            set.
-        3. If the ':' is not present (single chromosome), the chromosome is 
-            added to the set.
-        
+    :param string: target chromosome (str)
+
+    :return: set containing the target chromosomes.
     """
     # create an empty set
     chr_set = set()
@@ -203,40 +124,9 @@ def find_fragments(file):
     Function that will look for the target chromosome(s) and write the 
         information to the output.
         
-    Key arguments:
-        file(str) - path of the file.
-    
-    Procedure:
-        1. Colects only the file name from the path (taking into consideration
-             if the program is running on Windows or Linux.)
-        2. Creates the target set by calling the chr_set function, an empty 
-            dictionary to store the chromosomes and the fragment informations, 
-            and assing False to the variable 'frag'.
-        3. Open the file and, for each line, split the line into a list. Next, 
-            check if the chromosome of the line is in the target set. If it is, 
-            check if the chromosome is already a key in the dictionary 
-            (avoiding to overwrite keys). If it is not in the dictionary, a new
-            key is created with the chromosome name. The value is assigned as a
-            list with the fragment information as a sublist. If the key is 
-            already in the dictionary (chromosome has fragments), append a new
-            sublist to the value list.
-        4. After the dictionary is populated, a for loop through its keys 
-            start. If the list has more than one object (more than one 
-            fragment), the 'frag' sign becomes True. The function gap_length is 
-            called to create a list including the the gap length, based on the 
-            value list. The name of the file, chromosome and number of 
-            fragments are written in the output file.
-        5. Now, a new for loop starts, looping through the new list 
-            'frag_list'. If the object is not an int (segment information), the 
-            information is written in the output file in the format 'Fragment 
-            position    start-end    Cn'. If the object is an int (gap length),
-            the information is written in the output file in the format 'Gap
-            position    start-end    Length'.
-        6. A blank line is printed to separate chromosomes. Finally, after all
-            the dictionary was read, checks is the 'frag' is True or False (if 
-            the chromosome has fragments). If True, a blank line is printed, to 
-            separate files by 2 blank lines. The 'frag' sign makes sure that
-            blank lines does not stack if the files do not have fragments.
+    :param file: file path (str)
+
+    :return: print the information in the output. 
     """
     # remove the whole path of the file name.
     file_name = file.replace('\\', '/').split('/')[-1]
@@ -306,21 +196,11 @@ def gap_length(fragment_list):
     Function that calculates the fragment length and add the value between the
         two segments.
     
-    Key arguments:
-        fragment_list(list) - list containing sublists with information about 
-                                the fragments of one chromosome.
-    
-    Procedure:
-        1. Creates a copy of the list given in the arguments. The copy is 
-            needed to avoid errors in the loop, since new information will be
-            added in this list.
-        2. A loop starts, through the given list, and the gap is calculated 
-            subtracting the start position of a fragment and the end position of 
-            the fragment before.
-        3. Using the index() function, the position of the gap in the list
-            is calculated. The gap value is now inserted in the right position
-            (between the two fragments).
-        4. The new list, containing the gap lengths is returned.
+   :param fragment_list: list containing sublists with information about 
+        the fragments of one chromosome. (list)
+
+    :return: list containing the fragment information and the gap information 
+        (length and position) between each fragment.
     """
     # create a copy of the list given as an argument (avoids error in the loop)
     gaps_list = fragment_list.copy()
@@ -362,8 +242,8 @@ else: # if the outfile was informed.
 with open(outfile, 'w') as outfile:
     # if a directory was passed as input
     if args.fold_path:
-        # check the directory existance with dir_existance function.
-        if dir_existance(args.fold_path):
+        # check the directory existance.
+        if os.path.isdir(args.fold_path):
             # transform all the directory files into a list.
             file_list = os.listdir(args.fold_path)
             # loop through all the files in the list
@@ -380,8 +260,8 @@ with open(outfile, 'w') as outfile:
                         find_fragments(file)
     # if a single file was passed as input
     if infile:
-        # check if the file exists with file_existance function
-        if file_existance(infile):
+        # check if the file exists
+        if os.path.exists(infile):
              # check if the file is Copy Number Data with check_file function
             if check_file(infile):
                 # finally call the function to find the fragments.
